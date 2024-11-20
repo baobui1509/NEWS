@@ -1,0 +1,315 @@
+{% extends "myadmin/layouts/app.html" %}
+
+{% block main_content %}
+<div class="page-body">
+    <div class="container-xl">
+        <div>
+            <div class="page-header d-print-none mt-0 mb-3">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        <h2 class="page-title">
+                            Article
+                        </h2>
+                    </div>
+                    <!-- Page title actions -->
+                    <div class="col-auto ms-auto d-print-none">
+                        <div class="btn-list">
+                            <a href="{% url 'article_create' %}" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M12 5l0 14"></path>
+                                    <path d="M5 12l14 0"></path>
+                                </svg>
+                                Create
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card position-relative">
+                <div class="card-header">
+                    <div class="w-100 justify-content-between d-flex flex-wrap align-items-center gap-1">
+                        <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-1">
+                            <button class="btn btn-danger" disabled="" id="bulk-delete" data-type="article">
+                                Bulk Delete (0)
+                            </button>
+                            {% for key, value in list_status_count.items %}
+                                <button class="btn position-relative filter-status filter-category-all {% if status == key %} btn-primary {% endif %}" data-value="{{ key }}">
+                                    {{ value.name }}
+                                    <span class="badge bg-primary text-primary-fg badge-notification badge-pill">
+                                    {{ value.count }}
+                                    </span>
+                                </button>
+                            {% endfor %}
+<!--                            <button class="btn position-relative filter-status filter-category-all" value="all">-->
+<!--                                All-->
+<!--                                <span class="badge bg-primary text-primary-fg badge-notification badge-pill">-->
+<!--                                {{ all_count }}-->
+<!--                            </span>-->
+<!--                            </button>-->
+<!--                            <button class="btn position-relative btn- filter-status filter-category-published" value="publish">-->
+<!--                                Published-->
+<!--                                <span class="badge bg-success text-success-fg badge-notification badge-pill">-->
+<!--                                {{ published_count }}-->
+<!--                            </span>-->
+<!--                            </button>-->
+<!--                            <button class="btn position-relative btn- filter-status filter-category-pending" value="pending">-->
+<!--                                Pending-->
+<!--                                <span class="badge bg-warning text-warning-fg badge-notification badge-pill">-->
+<!--                                {{ pending_count }}-->
+<!--                                </span>-->
+<!--                            </button>-->
+<!--                            <button class="btn position-relative btn- filter-status filter-category-draft" value="draft">-->
+<!--                                Draft-->
+<!--                                <span class="badge bg-secondary text-secondary-fg badge-notification badge-pill">-->
+<!--                                {{ draft_count }}-->
+<!--                                </span>-->
+<!--                            </button>-->
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                            <input type="search" id="category-search" class="form-control input-sm" placeholder="Search..."
+                                   style="min-width: 120px" value="{{ request.GET.search|default_if_none:'' }}">
+                            <button class="btn" type="button" id="clear-search">Clear</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-table">
+                    <div class="table-responsive">
+                        <table class="table table-vcenter table-striped">
+                            <thead>
+                            <tr>
+                                <th class="w-1">
+                                    <input class="form-check-input" type="checkbox" id="checkAll">
+                                </th>
+                                <th>name</th>
+                                <th>slug</th>
+                                <th>homepage</th>
+                                <th>status</th>
+                                <th>ordering</th>
+                                <th>special</th>
+                                <th>publish date</th>
+                                <th>content</th>
+                                <th>image</th>
+                                <th>category</th>
+                                <th>tags</th>
+                                <th>actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in page_obj %}
+                                <tr class="">
+                                    <td>
+                                        <input class="form-check-input" type="checkbox" value="{{item.id}}">
+                                    </td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.slug}}</td>
+                                    <td>
+                                        {% if item.is_homepage %}
+                                        <span class="badge bg-success text-success-fg">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                         class="icon icon-tabler icon-tabler-check">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M5 12l5 5l10 -10"></path>
+                                                    </svg>
+
+                                                </span>
+                                        {% else %}
+                                        <span class="badge bg-danger text-danger-fg">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                         class="icon icon-tabler icon-tabler-x">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M18 6l-12 12"></path>
+                                                        <path d="M6 6l12 12"></path>
+                                                    </svg>
+
+                                                </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if item.status == 'published'%}
+                                        <span class="badge bg-success text-success-fg">Published</span>
+                                        {% elif item.status == 'draft' %}
+                                        <span class="badge bg-secondary text-secondary-fg">Draft</span>
+                                        {% else %}
+                                        <span class="badge bg-warning text-warning-fg">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{item.ordering}}</td>
+                                    <td>
+                                        {% if item.special %}
+                                        <span class="badge bg-success text-success-fg">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                         class="icon icon-tabler icon-tabler-check">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M5 12l5 5l10 -10"></path>
+                                                    </svg>
+
+                                                </span>
+                                        {% else %}
+                                        <span class="badge bg-danger text-danger-fg">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                         class="icon icon-tabler icon-tabler-x">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M18 6l-12 12"></path>
+                                                        <path d="M6 6l12 12"></path>
+                                                    </svg>
+
+                                                </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.publish_date|date:"d/m/Y H:i" }}</td>
+                                    <td>{{ item.content|truncatewords:10 }}...</td>
+                                    <td>
+                                        <img src="{% if item.image %}{{ item.image.url }} {% endif %}" alt="" class="img-thumbnail"
+                                             style="max-width: 100px;">
+                                    </td>
+                                    <td>{{ item.category.name }}</td>
+                                    {% comment %} <td>{% for tag in item.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td> {% endcomment %}
+                                    <td>
+                                        {% for tag in item.tags.all %}
+                                            <span class="tag">{{ tag.name }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    
+                                    <td>
+                                        <div class="d-flex gap-1" >
+                                            <a href="{% url 'article_edit' item.id %}"
+                                           class="btn btn-sm btn-icon btn-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                <path d="M16 5l3 3"></path>
+                                            </svg>
+                                        </a>
+                                            <button type="button" class="btn btn-sm btn-icon btn-danger"
+                                                onclick="deleteItem('article', '{{ item.id }}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M4 7l16 0"></path>
+                                                <path d="M10 11l0 6"></path>
+                                                <path d="M14 11l0 6"></path>
+                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                            </svg>
+                                        </button>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <nav class="d-flex justify-items-center justify-content-between">
+                            <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
+                                <div>
+                                    <p class="small text-muted">
+                                        Showing
+                                        <span class="fw-semibold">{{ page_obj.start_index }}</span>
+                                        -
+                                        <span class="fw-semibold">{{ page_obj.end_index }}</span>
+                                        of
+                                        <span class="fw-semibold">{{ page_obj.paginator.count }}</span>
+                                        results
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" onclick="navigateToPage('{{ page_obj.previous_page_number }}')" aria-label="Previous">
+                                                ‹
+                                            </a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">‹</span>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for num in page_obj.paginator.page_range %}
+                                        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                            <a class="page-link" href="#" onclick="navigateToPage('{{ num }}')">{{ num }}</a>
+                                        </li>
+                                        {% endfor %}
+
+                                        {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" onclick="navigateToPage('{{ page_obj.next_page_number }}')" aria-label="Next">
+                                                ›
+                                            </a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">›</span>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal modal-blur fade modal-confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal-status bg-danger"></div>
+                        <div class="modal-body text-center py-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="icon mb-2 text-danger icon-lg">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path>
+                                <path d="M12 16h.01"></path>
+                            </svg>
+                            <h3>Confirm delete</h3>
+                            <div class="text-secondary">Do you really want to delete this record?</div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="w-100">
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-danger w-100">Delete</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn w-100" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

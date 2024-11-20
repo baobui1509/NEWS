@@ -1,0 +1,144 @@
+{% extends "news/layouts/app.html" %}
+{% load static %}
+{% block title %} {{items.0.category.name}} {% endblock %}
+{% block main_content %}
+<!-- breadcrumb-area -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-content">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'home_index' %}">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ items.0.tags.all.0.name }}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb-area-end -->
+ <!-- blog-area -->
+ <section class="blog-area pt-60 pb-60">
+    <div class="container">
+        <div class="author-inner-wrap blog-inner-wrap">
+            <div class="row justify-content-center">
+                <div class="col-70 order-0 order-xl-2">
+                    <div class="weekly-post-item-wrap">
+                        {% for item in page_obj %}
+                        <div class="weekly-post-item weekly-post-four">
+                            <div class="weekly-post-thumb">
+                                <a href="{% url 'article_index' item.slug %}"><img src="{{item.image.url}}" alt=""></a>
+                            </div>
+                            <div class="weekly-post-content">
+                                {% comment %} <a href="blog.html" class="post-tag">{{item.category.name}}</a> {% endcomment %}
+                                <h2 class="post-title"><a href="{% url 'article_index' item.slug %}">{{item.name}}</a></h2>
+                                <div class="blog-post-meta">
+                                    <ul class="list-wrap">
+                                        <li><i class="flaticon-calendar"></i>{{item.publish_date|date:"d/m/Y"}}</li>
+                                        <li><i class="flaticon-history"></i>{{item.publish_date|timesince}}</li>
+                                    </ul>
+                                </div>
+                                <p>{{item.content|truncatewords:30}}</p>
+                                <div class="view-all-btn">
+                                    <a href="{% url 'article_index' item.slug %}" class="link-btn">Đọc thêm
+                                        <span class="svg-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
+                                                <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z" fill="currentColor" />
+                                                <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="pagination-wrap mt-60">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination list-wrap">
+                                {% comment %} <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li> {% endcomment %}
+                                {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="navigateToPage('{{ page_obj.previous_page_number }}')" aria-label="Previous">
+                                        ‹
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">‹</span>
+                                </li>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                    <a class="page-link" href="#" onclick="navigateToPage('{{ num }}')">{{ num }}</a>
+                                </li>
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="navigateToPage('{{ page_obj.next_page_number }}')" aria-label="Next">
+                                        ›
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">›</span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-30">
+                    {% include 'news/layouts/sidebar.html'%}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- blog-area-end -->
+
+<!-- newsletter-area -->
+<section class="newsletter-area-three">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="newsletter-wrap-three">
+                    <div class="newsletter-content">
+                        <h2 class="title">Get Our Latest News & Update</h2>
+                    </div>
+                    <div class="newsletter-form">
+                        <form action="#">
+                            <div class="form-grp">
+                                <input type="text" placeholder="Name">
+                            </div>
+                            <div class="form-grp">
+                                <input type="email" placeholder="E-mail">
+                            </div>
+                            <button type="submit" class="btn">Submit Now</button>
+                        </form>
+                    </div>
+                    <div class="newsletter-social">
+                        <h4 class="title">Follow Us:</h4>
+                        <ul class="list-wrap">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- newsletter-area-end -->
+{% endblock %}

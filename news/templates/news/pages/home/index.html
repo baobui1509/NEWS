@@ -1,0 +1,414 @@
+{% extends "news/layouts/app.html" %}
+{% load static %}
+{% block main_content %}
+<!-- featured-post-area -->
+<section class="featured-post-area pt-60 pb-30">
+    <div class="container">
+        <div class="featured-post-wrap">
+            <div class="row featured-post-active">
+                {% for item in special_articles %}
+                <div class="col-lg-3">
+                    <div class="featured-post-item">
+                        <div class="featured-post-thumb">
+                            <a href="{% url 'article_index' item.slug %}"><img src="{{ item.image.url }}" alt=""></a>
+                        </div>
+                        <div class="featured-post-content">
+                            <a href="{% url 'category_index' item.category.slug %}" class="post-tag">{{item.category.name}}</a>
+                            <h2 class="{% url 'article_index' item.slug %}"><a href="{% url 'article_index' item.slug %}">{{item.name}}</a></h2>
+                            <div class="blog-post-meta">
+                                <ul class="list-wrap">
+                                    <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
+                                    <li><i class="flaticon-calendar"></i>{{item.publish_date|date:"d/m/Y"}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor%}
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- featured-post-area-end -->
+
+<!-- newsletter-area -->
+<section class="newsletter-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="newsletter-wrap">
+                    <div class="newsletter-content">
+                        <h2 class="title">Muốn nhận thông báo tin tức mới mỗi ngày?</h2>
+                    </div>
+                    <div class="newsletter-form">
+                        <form action="#">
+                            <div class="form-grp">
+                                <input type="text" placeholder="Tên">
+                            </div>
+                            <div class="form-grp">
+                                <input type="email" placeholder="E-mail">
+                            </div>
+                            <button type="submit" class="btn">Gửi</button>
+                        </form>
+                    </div>
+                    <div class="newsletter-shape-wrap">
+                        <img src="news/img/images/newsletter_shape01.png" alt="">
+                        <img src="news/img/images/newsletter_shape02.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- newsletter-area-end -->
+
+<!-- latest-post-area -->
+<section class="latest-post-area pt-60 pb-60">
+    <div class="container">
+        <div class="latest-post-inner-wrap">
+            <div class="row">
+                <div class="col-70">
+                    <div class="section-title-wrap mb-30">
+                        <div class="section-title">
+                            <h2 class="title">Bài viết mới nhất</h2>
+                        </div>
+                        {% comment %} <div class="view-all-btn">
+                            <a href="" class="link-btn">Xem tất cả
+                                <span class="svg-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
+                                                    <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z"
+                                                          fill="currentColor"/>
+                                                    <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z"
+                                                          fill="currentColor"/>
+                                                </svg>
+                                            </span>
+                            </a>
+                        </div> {% endcomment %}
+                        <div class="section-title-line"></div>
+                    </div>
+                    <div class="latest-post-item-wrap">
+                        <div class="row">
+                            <div class="col-66">
+                                {% if featured_latest_article %}
+                                <div class="featured-post-item latest-post-item big-post">
+                                    <div class="featured-post-thumb">
+                                        <a href="{% url 'article_index' featured_latest_article.category.slug %}"><img src="{{ featured_latest_article.image.url }}"
+                                                                         alt=""></a>
+                                    </div>
+                                    <div class="featured-post-content">
+                                        <a href="blog.html"
+                                           class="post-tag">{{featured_latest_article.category.name}}</a>
+                                        <h2 class="post-title bold-underline"><a href="{% url 'article_index' featured_latest_article.category.slug %}">{{featured_latest_article.name}}</a>
+                                        </h2>
+                                        <div class="blog-post-meta">
+                                            <ul class="list-wrap">
+                                                <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
+                                                <li><i class="flaticon-calendar"></i>{{featured_latest_article.publish_date|date:"d/m/Y"}}
+                                                </li>
+                                                <li><i class="flaticon-history"></i>{{featured_latest_article.publish_date|timesince}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <p>{{ featured_latest_article.content|truncatewords:30 }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-34">
+                                <div class="latest-post-wrap">
+                                    {% for item in other_latest_articles %}
+                                    <div class="featured-post-item latest-post-item small-post">
+                                        <div class="featured-post-thumb">
+                                            <a href="{% url 'article_index' item.slug %}"><img src="{{ item.image.url }}"
+                                                                             alt=""></a>
+                                        </div>
+                                        <div class="featured-post-content">
+                                            <a href="{% url 'category_index' item.category.slug %}" class="post-tag">{{item.category.name}}</a>
+                                            <h2 class="post-title"><a href="{% url 'article_index' item.slug %}">{{item.name}}</a>
+                                            </h2>
+                                            <div class="blog-post-meta">
+                                                <ul class="list-wrap">
+                                                    <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a>
+                                                    </li>
+                                                    <li><i class="flaticon-calendar"></i>{{item.publish_date|date:"d/m/Y"}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-30">
+                    <div class="sidebar-wrap">
+                        <div class="sidebar-widget">
+                            <div class="sidebar-avatar">
+                                <div class="sidebar-avatar-thumb">
+                                    <img src="{% static 'news/img/images/avatar_img.png' %}" alt="">
+                                </div>
+                                <div class="sidebar-avatar-content">
+                                    <h2 class="title">Chào, Tôi là Bảo Bùi!</h2>
+                                    <p>"when an unknown printer took a galley of type and scrambled it to make a type
+                                        specimen book."</p>
+                                    <div class="avatar-social">
+                                        <ul class="list-wrap">
+                                            <li><a href="https://www.facebook.com/barobufi"><i
+                                                    class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="sidebar-avatar-shape">
+                                    <img src="news/img/images/avatar_shape01.png" alt="">
+                                    <img src="news/img/images/avatar_shape02.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar-widget">
+                            <div class="widget-title mb-25">
+                                <h2 class="title">Subscribe & Followers</h2>
+                                <div class="section-title-line"></div>
+                            </div>
+                            <div class="sidebar-social-wrap">
+                                <ul class="list-wrap">
+                                    <li><a href="https://www.facebook.com/barobufi"><i class="fab fa-facebook-f"></i>facebook</a>
+                                    </li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i>twitter</a></li>
+                                    <li><a href="#"><i class="fab fa-instagram"></i>instagram</a></li>
+                                    <li><a href="#"><i class="fab fa-youtube"></i>youtube</a></li>
+                                    <li><a href="#"><i class="fab fa-linkedin-in"></i>LinkedIn</a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest-p"></i>Pinterest</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- latest-post-area-end -->
+
+<!-- categories-area -->
+<section class="categories-area">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section-title section-title-two text-center mb-30">
+                    <h2 class="title">Danh mục phổ biến</h2>
+                    <p>BAROBUFI - King of news</p>
+                </div>
+            </div>
+        </div>
+        <div class="categories-item-wrap">
+            <div class="row justify-content-center">
+                {% for item in featured_categories %}
+                <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                    <div class="categories-item">
+                        {% comment %} <div class="categories-img">
+                            <a href="blog.html"><img src="news/img/images/categories_img01.png" alt=""></a>
+                        </div> {% endcomment %}
+                        <div class="categories-content">
+                            <a href="{% url 'category_index' item.slug %}">{{item.name}}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="categories-shape-wrap">
+        <img src="news/img/images/categories_shape01.png" alt="">
+        <img src="news/img/images/categories_shape02.png" alt="">
+    </div>
+</section>
+<!-- categories-area-end -->
+
+<!-- recipe-area -->
+<section class="recipe-area pt-70 pb-40">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-wrap mb-30">
+                    <div class="section-title">
+                        <h2 class="title">{{ homepage_articles_grid.0.category.name }}</h2>
+                    </div>
+                    <div class="view-all-btn">
+                        <a href="{% url 'category_index' homepage_articles_grid.0.category.slug %}" class="link-btn">Xem tất cả
+                            <span class="svg-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
+                                                <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z"
+                                                      fill="currentColor"/>
+                                                <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z"
+                                                      fill="currentColor"/>
+                                            </svg>
+                                        </span>
+                        </a>
+                    </div>
+                    <div class="section-title-line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for item in homepage_articles_grid %}
+            {% if forloop.first %}
+            <div class="col-xl-6">
+                <div class="ta-overlay-post">
+                    <div class="overlay-post-thumb">
+                        <a href="{% url 'article_index' item.slug %}"><img src="{{ item.image.url }}" alt=""></a>
+                    </div>
+                    <div class="overlay-post-content">
+                        <a href="{% url 'category_index' item.category.slug %}" class="post-tag">{{item.category.name}}</a>
+                        <h2 class="post-title"><a href="{% url 'article_index' item.slug %}">{{item.name}}</a></h2>
+                        <div class="blog-post-meta">
+                            <ul class="list-wrap">
+                                <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
+                                <li><i class="flaticon-calendar"></i>{{item.publish_date|date:"d/m/Y"}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {% endif %}
+            {% endfor %}
+
+            <div class="col-xl-6">
+                {% for item in homepage_articles_grid %}
+                {% if not forloop.first %}
+                <div class="ta-horizontal-post">
+                    <div class="horizontal-post-thumb">
+                        <a href="{% url 'article_index' item.slug %}"><img src="{{ item.image.url }}" alt=""></a>
+                    </div>
+                    <div class="horizontal-post-content">
+                        <a href="{% url 'category_index' item.category.slug %}" class="post-tag">{{item.category.name}}</a>
+                        <h2 class="post-title"><a href="{% url 'article_index' item.slug %}">{{item.name}}</a></h2>
+                        <div class="blog-post-meta">
+                            <ul class="list-wrap">
+                                <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
+                                <li><i class="flaticon-calendar"></i>{{item.publish_date|date:"d/m/Y"}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- recipe-area-end -->
+
+<!-- ad-banner-area -->
+<div class="ad-banner-area">
+    <div class="container">
+        <div class="ad-banner-img">
+            <a href="#">
+                <img src="news/img/images/advertisement01.jpg" alt="">
+            </a>
+        </div>
+    </div>
+</div>
+<!-- ad-banner-area-end -->
+
+<!-- healthy-area -->
+<section class="healthy-area pt-60 pb-30">
+    <div class="container">
+        <div class="healthy-inner-wrap">
+            <div class="row">
+                <div class="col-70">
+                    <div class="section-title-wrap mb-30">
+                        <div class="section-title">
+                            <h2 class="title">{{homepage_articles_list.0.category.name}}</h2>
+                        </div>
+                        <div class="section-title-line"></div>
+                        <div class="view-all-btn">
+                        <a href="{% url 'category_index' homepage_articles_list.0.category.slug %}" class="link-btn">Xem tất cả
+                            <span class="svg-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
+                                                <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z"
+                                                      fill="currentColor"/>
+                                                <path d="M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z"
+                                                      fill="currentColor"/>
+                                            </svg>
+                                        </span>
+                        </a>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                        {% for item in homepage_articles_list %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="featured-post-item healthy-post">
+                                <div class="featured-post-thumb">
+                                    <a href="{% url 'article_index' item.slug %}"><img src="{{ item.image.url }}" alt=""></a>
+                                </div>
+                                <div class="featured-post-content">
+                                    <a href="{% url 'category_index' item.category.slug %}" class="post-tag">{{item.category.name}}</a>
+                                    <h2 class="post-title"><a href="{% url 'article_index' item.slug %}">{{ item.name }}</a></h2>
+                                    <div class="blog-post-meta">
+                                        <ul class="list-wrap">
+                                            <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
+                                            <li><i class="flaticon-calendar"></i>{{item.publish_date|date:"d/m/Y"}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-30">
+                    <div class="sidebar-wrap no-sticky">
+                        <div class="sidebar-widget">
+                            <div class="widget-title mb-25">
+                                <h2 class="title">Bài viết phổ biến</h2>
+                                <div class="section-title-line"></div>
+                            </div>
+                            <div class="popular-post-wrap">
+                                {% for item in special_articles %}
+                                <div class="popular-post">
+                                    <div class="thumb">
+                                        <a href="{% url 'article_index' item.slug %}"><img src="{{item.image.url}}" alt="" class="w-100"></a>
+                                    </div>
+                                    <div class="content">
+                                        <a href="{% url 'category_index' item.category.slug %}" class="post-tag-two">{{item.category.name}}</a>
+                                        <h2 class="post-title"><a href="{% url 'article_index' item.slug %}">{{item.name}}</a></h2>
+                                        <div class="blog-post-meta">
+                                            <ul class="list-wrap">
+                                                <li><i class="flaticon-calendar"></i>{{item.publish_date|date:"d/n/Y"}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- healthy-area-end -->
+
+<!-- ad-banner-area -->
+<div class="ad-banner-area pb-90">
+    <div class="container">
+        <div class="ad-banner-img">
+            <a href="#">
+                <img src="news/img/images/advertisement02.jpg" alt="">
+            </a>
+        </div>
+    </div>
+</div>
+<!-- ad-banner-area-end -->
+{% endblock %}

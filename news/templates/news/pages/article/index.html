@@ -1,0 +1,236 @@
+{% extends 'news/layouts/app.html' %}
+{% load static %}
+{% block main_content %}
+<!-- breadcrumb-area -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-content">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'home_index' %}">Trang chủ</a></li>
+                            <li class="breadcrumb-item" aria-current="page"><a href="{% url 'category_index' item.category.slug %}">{{item.category.name}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{item.name}}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb-area-end -->
+
+<!-- blog-details-area -->
+<section class="blog-details-area pt-60 pb-60">
+    <div class="container">
+        <div class="author-inner-wrap">
+            <div class="row justify-content-center">
+                <div class="col-70">
+                    <div class="blog-details-wrap">
+                        <div class="blog-details-content">
+                            <div class="blog-details-content-top">
+                                <a href="{% url 'category_index' item.category.slug %}" class="post-tag">{{item.category.name}}</a>
+                                <h2 class="title">{{item.name}}</h2>
+                                <div class="bd-content-inner">
+                                    <div class="blog-post-meta">
+                                        <ul class="list-wrap">
+                                            <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
+                                            <li><i class="flaticon-calendar"></i>{{item.publish_date|date:'d/m/Y'}}</li>
+                                            <li><i class="flaticon-chat"></i><a href="blog-details.html">05 Comments</a></li>
+                                            <li><i class="flaticon-history"></i>{{item.publish_date|timesince}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="blog-details-social">
+                                        <ul class="list-wrap">
+                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog-details-thumb">
+                                <img src="{{item.image.url}}" alt="">
+                            </div>
+                            <p class="first-info">Browned butter and brown sugar caramelly oodness crispy edgesthick and soft centers andey melty little puddles of
+                            chocolate y first favorite.dolor sit amet, consectetuer adipiscing elitter Aenean commodo ligula eget dolor Aenean
+                            massa.</p>
+                            <p>Growned butter and brown sugar caramelly oodness crispy edgesthick and soft centers andey meltpuddles of chocolate y first favorite.dolor sit amet, consectetuer adipiscing elitter Aenean commodo ligula eget doloawr Aenean massa.m Ipsum has been the industry’s standard dummy.</p>
+                            <blockquote>
+                                <p>Grursus mal suada faci lisis orem ipsum dola onsectetur elittery Vestey  bulum the ipsumm ipsum that dolocons rsus mal suada and there fadolorit to the consectetur elite. </p>
+                                <cite>Thomas A. Edison</cite>
+                            </blockquote>
+                            <p>Growned butter and brown sugar caramelly oodness crispy edgesthick and soft centers andey meltpuddles offer chocolate y first favorite.dolor sit amet, consectetuer adipiscing elitter Aenean commodo ligula egette doloawr Aenean massa.m Ipsum has been the industry’s standard dummy.should never complain, complaining is a weak emotion, you got life, we breathing, we blessed. Surround yourself with angels.</p>
+                            <div class="blog-details-inner">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="blog-details-inner-img">
+                                            <img src="assets/img/blog/blog_details02.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="blog-details-inner-content">
+                                            <h3 class="title-two">Customer Engagement Marketing New Strategy for the Economy</h3>
+                                            <p>Pellentesque iaculis gravida nulla ac hendrerit Vestiabulum faucibus neque at lacus tristique eu ultrices area ipsum mollis Praesent pharetra semper purusPellentesque iaculis gravida nulla ac hendrerit.</p>
+                                            <ul class="list-wrap">
+                                                <li><i class="fas fa-check"></i>Gutenberg Integration</li>
+                                                <li><i class="fas fa-check"></i>Gutenberg Integration</li>
+                                                <li><i class="fas fa-check"></i>Gutenberg Integration</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Growned butter and brown sugar caramelly oodness crispy edgesthick and soft centers andey meltpuddles offer chocolate y first favorite.dolor sit amet, consectetuer adipiscing elitter Aenean commodo ligula egette doloawr Aenean massa.m Ipsum has been the industry’s standard dummy.should never complain, complaining is a weak emotion, you got life, we breathing, we blessed. Surround yourself with angels.</p>
+                            <div class="blog-details-video">
+                                <img src="assets/img/blog/blog_details03.jpg" alt="">
+                                <a href="https://www.youtube.com/watch?v=G_AEL-Xo5l8" class="paly-btn popup-video"><i class="fas fa-play"></i></a>
+                            </div>
+                            <p>Growned butter and brown sugar caramelly oodness crispy edgesthick and soft centers andey meltpuddles offer chocolate y first favorite.dolor sit amet, consectetuer adipiscing elitter Aenean commodo ligula egette doloawr Aenean massa.m Ipsum has been the industry’s standard dummy.should never complain, complaining is a weak emotion, you got life, we breathing, we blessed. Surround yourself with angels.</p>
+                            <div class="blog-details-bottom">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6">
+                                        <div class="post-tags">
+                                            <h5 class="title">Tags:</h5>
+                                            <ul class="list-wrap">
+                                                {% for tag in item.tags.all %}
+                                                    <li><a href="{% url 'tag_index' tag.slug %}">{{ tag.name }}</a></li>
+                                                {% endfor %}
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="post-share">
+                                            <h5 class="title">Share:</h5>
+                                            <ul class="list-wrap">
+                                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-avatar-wrap mb-50">
+                            <div class="blog-avatar-img">
+                                <a href="#"><img src="assets/img/images/avatar.png" alt="img"></a>
+                            </div>
+                            <div class="blog-avatar-info">
+                                <span class="designation">Author</span>
+                                <h4 class="name"><a href="author.html">Cameron Williamson</a></h4>
+                                <p>Finanappreciate your trust greatly Our clients choose dentace ducts because kneer ow we are the best area Awaitingare really.</p>
+                            </div>
+                        </div>
+                        <div class="pev-next-post-wrap">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="post-item">
+                                        <div class="thumb">
+                                            <a href="blog-details.html"><img src="assets/img/blog/bd_post01.jpg" alt=""></a>
+                                        </div>
+                                        <div class="content">
+                                            <span>Previous Post</span>
+                                            <h5 class="post-title"><a href="blog-details.html">Make May Magnificent <br> Wallpapers Edition</a></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="post-item next-post">
+                                        <div class="thumb">
+                                            <a href="blog-details.html"><img src="assets/img/blog/bd_post02.jpg" alt=""></a>
+                                        </div>
+                                        <div class="content">
+                                            <span>Next Post</span>
+                                            <h5 class="post-title"><a href="blog-details.html">Write Better By Borrowing <br> Ideas JavaScript Functions</a></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comments-wrap">
+                            <h3 class="comments-wrap-title">02 Comments</h3>
+                            <div class="latest-comments">
+                                <ul class="list-wrap">
+                                    <li>
+                                        <div class="comments-box">
+                                            <div class="comments-avatar">
+                                                <img src="assets/img/images/comment01.png" alt="img">
+                                            </div>
+                                            <div class="comments-text">
+                                                <div class="avatar-name">
+                                                    <h6 class="name">Alebary keon</h6>
+                                                    <span class="date">27 August, 2024</span>
+                                                </div>
+                                                <p>Finanappreciate your trust greatly Our clients choose dentace ducts because know we are the best area Awaitingare really.</p>
+                                                <a href="#" class="reply-btn">Reply</a>
+                                            </div>
+                                        </div>
+                                        <ul class="children">
+                                            <li>
+                                                <div class="comments-box">
+                                                    <div class="comments-avatar">
+                                                        <img src="assets/img/images/comment02.png" alt="img">
+                                                    </div>
+                                                    <div class="comments-text">
+                                                        <div class="avatar-name">
+                                                            <h6 class="name">Lukas Javeb</h6>
+                                                            <span class="date">27 August, 2024</span>
+                                                        </div>
+                                                        <p>Finanappreciate your trust greatly Our clients choose dentace ducts because know we are the best area Awaitingare really.</p>
+                                                        <a href="#" class="reply-btn">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="comment-respond">
+                            <h3 class="comment-reply-title">Post a comment</h3>
+                            <form action="#" class="comment-form">
+                                <p class="comment-notes">Your email address will not be published. Required fields are marked *</p>
+                                <div class="form-grp">
+                                    <textarea name="comment" placeholder="Comment"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-grp">
+                                            <input type="text" placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-grp">
+                                            <input type="email" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-grp">
+                                            <input type="url" placeholder="Website">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-grp checkbox-grp">
+                                    <input type="checkbox" id="checkbox_two">
+                                    <label for="checkbox_two">Save my name, email, and website in this browser for the next time I comment.</label>
+                                </div>
+                                <button type="submit" class="btn btn-two">Post Comment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-30">
+                    {% include 'news/layouts/sidebar.html'%}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- blog-details-area-end -->
+{% endblock %}

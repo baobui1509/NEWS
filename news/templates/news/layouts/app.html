@@ -1,0 +1,61 @@
+<!doctype html>
+
+
+<html class="no-js" lang="en">
+    <head>
+        {% include "news/layouts/head.html" %}
+    <head/>
+    
+    <body>
+
+        <!-- preloader -->
+        <div id="preloader">
+            <div class="loader-inner">
+                <div id="loader">
+                    <h2 id="bg-loader">barobufi<span>.</span></h2>
+                    <h2 id="fg-loader">barobufi<span>.</span></h2>
+                </div>
+            </div>
+        </div>
+        <!-- preloader-end -->
+
+        <!-- Dark/Light-toggle -->
+        <div class="darkmode-trigger">
+            <label class="modeSwitch">
+                <input type="checkbox">
+                <span class="icon"></span>
+            </label>
+        </div>
+        <!-- Dark/Light-toggle-end -->
+
+		<!-- Scroll-top -->
+        <button class="scroll-top scroll-to-target" data-target="html">
+            <i class="fas fa-angle-up"></i>
+        </button>
+        <!-- Scroll-top-end-->
+
+        <!-- header-area -->
+        <header>
+            {% include "news/layouts/header.html" %}
+        </header>
+        <!-- header-area-end -->
+
+
+        <!-- main-area -->
+        <main class="fix">
+            {% block main_content %}
+            {% endblock %}
+        </main>
+        <!-- main-area-end -->
+
+        <!-- footer-area -->
+        <footer>
+            {% include "news/layouts/footer.html" %}
+        </footer>
+        <!-- footer-area-end -->
+
+
+        <!-- JS here -->
+        {% include "news/layouts/script.html" %}
+    </body>
+</html>

@@ -1,0 +1,25 @@
+
+
+
+Edit
+    - Theo id
+    - Không generate
+    - Thông báo
+
+Index
+    - Thống kê theo status
+    - lọc theo trạng thái (phải có tham số trên url)
+    - Search (phải có tham số trên url)
+        + click button mới tiến hành search
+        + live search (debounce) - optional
+    - Kết hợp lọc trạng thái và search (optional)
+    - Bulk Delete
+    - Phan Trang
+
+
+
+Lọc
+    - Reload publish
+
+Bulk Delete
+    - Tô màu

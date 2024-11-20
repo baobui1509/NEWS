@@ -1,0 +1,204 @@
+{% extends "myadmin/layouts/app.html" %}
+
+{% block main_content %}
+<div class="page-body">
+    <div class="container-xl">
+        <div>
+            <div class="page-header d-print-none mt-0 mb-3">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        <h2 class="page-title">
+                            Thêm bài viết mới
+                        </h2>
+                    </div>
+                    <!-- Page title actions -->
+                    <div class="col-auto ms-auto d-print-none">
+                        <div class="btn-list">
+                            <a href="{% url 'article_index' %}" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-transfer-out">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M4 19v2h16v-14l-8 -4l-8 4v2"></path>
+                                    <path d="M13 14h-9"></path>
+                                    <path d="M7 11l-3 3l3 3"></path>
+                                </svg>
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-9">
+                        <!-- Success Message -->
+                        {% if success_message %}
+                        <div class="alert alert-success" role="alert">
+                            <i class="fas fa-check-circle"></i> {{ success_message }}
+                        </div>
+                        {% endif %}
+
+                        <!-- Error Message -->
+                        {% if error_message %}
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> Lỗi:
+                            <ul>
+                                {% for field, errors in error_message.items %}
+                                {% for error in errors %}
+                                <li><b>{{ field }}:</b> {{ error }}</li>
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label required">Name</label>
+                                    <input class="form-control " type="text" name="name"
+                                           value="{{item.name}}" oninput="updateSlug(this.value)">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label required">Slug</label>
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" name="slug"
+                                               value="{{item.slug}}" id="slugInput" oninput="setSlugDirty(true)">
+                                        <button class="btn btn-outline-secondary" type="button"
+                                                onclick="updateSlugFromButton()">
+                                            Generate
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" name="is_homepage"
+                                               id="homepageCheckbox">
+                                        <label class="form-check-label" for="homepageCheckbox">Is homepage</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label required">Ordering</label>
+                                    <input class="form-control" type="number" name="ordering" value="{{ item.ordering }}" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" name="special"
+                                               id="specialCheckbox">
+                                        <label class="form-check-label" for="specialCheckbox">Special</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label required">Publish date</label>
+                                    <div class="d-flex">
+                                        <input type="date" class="form-control me-2" name="publish_date" id="publish_date" value="" required>
+                                        <input type="time" class="form-control" name="publish_date_time" id="publish_date_time" value="" required>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="setCurrentDateTime()">Now</button>
+                                    </div>
+                                    <small class="form-text text-muted">Note: You are 7 hours ahead of server time.</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label required">Content</label>
+                                    <textarea class="form-control" name="content" required>{{ item.content }}</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label required">Image</label>
+                                    <input class="form-control" type="file" name="image" accept="image/*">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label required">Category</label>
+                                    <div class="input-group">
+                                        <select class="form-select" name="category" required>
+                                            {% for category in categories %}
+                                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                            {% endfor %}
+                                        </select>
+<!--                                        <button class="btn btn-outline-secondary" type="button"><i class="bi bi-plus-lg"></i></button>-->
+<!--                                        <button class="btn btn-outline-secondary" type="button"><i class="bi bi-eye"></i></button>-->
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label required">Tags</label>
+                                    <input id="tags" name="tags" class="tagify--custom-dropdown" placeholder="Nhập tag" value="">
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h4 class="card-title">Action</h4>
+                            </div>
+                            <div class="card-body">
+                                <button type="submit" class="btn btn-primary mb-1" value="submit"
+                                        name="action">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"></path>
+                                        <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                        <path d="M14 4l0 4l-6 0l0 -4"></path>
+                                    </svg>
+                                    Save
+                                </button>
+                                <button type="submit" class="btn btn-warning mb-1" value="apply" name="action">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-transfer-in">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 18v3h16v-14l-8 -4l-8 4v3"></path>
+                                        <path d="M4 14h9"></path>
+                                        <path d="M10 11l3 3l-3 3"></path>
+                                    </svg>
+                                    Save &amp; Edit
+                                </button>
+                                <button type="submit" class="btn btn-danger mb-1" value="save" name="action">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-transfer-out">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 19v2h16v-14l-8 -4l-8 4v2"></path>
+                                        <path d="M13 14h-9"></path>
+                                        <path d="M7 11l-3 3l3 3"></path>
+                                    </svg>
+                                    Save &amp; Exit
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <label class="form-label required">Status</label>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <select class="form-select " name="status">
+                                    <!--[if BLOCK]><![endif]-->
+                                    {% for key, value in category_status_choices %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                    {% endfor %}
+                                    <!--[if ENDBLOCK]><![endif]-->
+                                </select>
+                                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
